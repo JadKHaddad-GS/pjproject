@@ -1,4 +1,4 @@
-include ../../../../build.mak
+include ./build.mak
 include $(PJDIR)/build/common.mak
 
 ldflags:

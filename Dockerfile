@@ -8,19 +8,17 @@ RUN apt install -y nano
 RUN apt install -y python3-pip
 
 ENV LD_LIBRARY_PATH /usr/local/lib
+RUN mkdir /home/test
 
 RUN git clone https://github.com/JadKHaddad/pjproject.git --depth 1 pjproject
 WORKDIR /home/pjproject
 
-
-
-
-COPY symbols.i /home/pjproject/symbols.i
-COPY and_string.i /home/pjproject/and_string.i
+#RUN ./configure --enable-shared && make dep && make && make install
 
 #RUN python3 setup.py build
 #RUN python3 setup.py install
 
+#COPY helper.mak /home/pjproject/helper.mak
 CMD ["/bin/bash"]
 
 
