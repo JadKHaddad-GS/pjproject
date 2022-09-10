@@ -18,10 +18,38 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 #
+
 from distutils.core import setup, Extension
 import os
 import sys
 import platform
+from pathlib import Path
+import subprocess
+import sys
+
+print(" -----------------> current dir: " + os.getcwd())
+print(" -----------------> pwd is: ", os.popen("pwd").read())
+print(" -----------------> ls is: ", os.popen("ls").read())
+
+if sys.argv[1] == "build":
+    current_file_dir = Path(__file__).absolute().parent
+    pjproject_dir = current_file_dir.parent.parent.parent.parent
+
+    re = subprocess.Popen("./configure --enable-shared", shell=True, cwd=pjproject_dir).wait()
+    re = subprocess.Popen("make dep", shell=True, cwd=pjproject_dir).wait()
+    re = subprocess.Popen("make", shell=True, cwd=pjproject_dir).wait()
+    re = subprocess.Popen("make install", shell=True, cwd=pjproject_dir).wait() # this one installs the libs
+    re = subprocess.Popen(["swig \
+        -I../../../../pjlib/include \
+        -I../../../../pjlib-util/include \
+        -I../../../../pjmedia/include \
+        -I../../../../pjsip/include \
+        -I../../../../pjnath/include \
+        -c++ \
+        -w312 \
+        -python \
+        -o pjsua2_wrap.cpp \
+        ../pjsua2.i"], shell=True, cwd=current_file_dir).wait()
 
 # find pjsip version
 pj_version=""
