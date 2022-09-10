@@ -11,11 +11,6 @@ RUN apt install -y python3-pip
 
 ENV LD_LIBRARY_PATH /usr/local/lib
 
-COPY pjsip-apps/src/swig/python/setup.py /home/pjproject/pjsip-apps/src/swig/python/setup.py
-COPY pjsip-apps/src/swig/python/setup_.py /home/pjproject/pjsip-apps/src/swig/python/setup_.py
-COPY pjsip-apps/src/swig/python/Makefile /home/pjproject/pjsip-apps/src/swig/python/Makefile
-
-
 #RUN python3 setup.py build
 #RUN python3 setup.py install
 
