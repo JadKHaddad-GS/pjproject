@@ -48,7 +48,7 @@ if sys.argv[1] == "build":
         -w312 \
         -python \
         -o pjsua2_wrap.cpp \
-        ../pjsua2.i"], shell=True, cwd=current_file_dir).wait()
+        ./pjsua2.i"], shell=True, cwd=current_file_dir).wait()
 
 # find pjsip version
 pj_version=""

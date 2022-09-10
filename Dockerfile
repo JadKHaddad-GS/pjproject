@@ -4,13 +4,16 @@ RUN apt update
 RUN apt install -y git gcc make g++ python3 python3-dev swig
 
 WORKDIR /home
-RUN git clone https://github.com/JadKHaddad/pjproject.git --depth 1 pjproject
-WORKDIR /home/pjproject/pjsip-apps/src/swig/python
 RUN apt install -y nano 
 RUN apt install -y python3-pip
 
+RUN git clone https://github.com/JadKHaddad/pjproject.git --depth 1 pjproject
+WORKDIR /home/pjproject
+
+
 ENV LD_LIBRARY_PATH /usr/local/lib
 
+COPY setup.py /home/pjproject/setup.py
 #RUN python3 setup.py build
 #RUN python3 setup.py install
 
