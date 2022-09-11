@@ -19,7 +19,7 @@ ENV LD_LIBRARY_PATH /usr/local/lib
 #RUN python3 setup.py build
 #RUN python3 setup.py install
 
-COPY setup_.py /home/setup_.py
+#COPY setup_.py /home/setup_.py
 #COPY helper.mak /home/pjproject/helper.mak
 
 CMD ["/bin/bash"]
