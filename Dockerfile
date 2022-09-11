@@ -9,6 +9,8 @@ RUN pip3 install git+https://github.com/JadKHaddad/pjproject.git
 
 ENV LD_LIBRARY_PATH /usr/local/lib
 
+COPY example.py /home/example.py
+
 CMD ["/bin/bash"]
 
 # export LD_LIBRARY_PATH=/usr/local/lib
