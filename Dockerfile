@@ -8,7 +8,8 @@ RUN apt install -y nano
 RUN apt install -y python3-pip
 
 ENV LD_LIBRARY_PATH /usr/local/lib
-RUN mkdir /home/test
+
+RUN mkdir /home/symbols
 
 RUN git clone https://github.com/JadKHaddad/pjproject.git --depth 1 pjproject
 WORKDIR /home/pjproject
@@ -18,11 +19,13 @@ WORKDIR /home/pjproject
 #RUN python3 setup.py build
 #RUN python3 setup.py install
 
+COPY setup.py /home/pjproject/setup.py
 #COPY helper.mak /home/pjproject/helper.mak
+
 CMD ["/bin/bash"]
 
 
-# docker build -t debian-slim-builder-test .
+# docker build -t debian-slim-builder-test . && docker run -it debian-slim-builder-test
 # docker run -it --rm debian-slim-builder-test
 
 #swig -I./pjlib/include -I./pjlib-util/include -I./pjmedia/include -I./pjsip/include -I./pjnath/include -c++  -w312  -python -o pjsua2_wrap.cpp ./pjsua2.i

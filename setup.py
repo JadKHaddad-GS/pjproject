@@ -27,17 +27,20 @@ from pathlib import Path
 import subprocess
 import sys
 
-print(" -----------------> current dir: " + os.getcwd())
-print(" -----------------> pwd is: ", os.popen("pwd").read())
-print(" -----------------> ls is: ", os.popen("ls").read())
+print("-----------------> args: ", sys.argv)
 
-if sys.argv[1] == "build":
+if sys.argv[1] == "bdist_wheel":
     current_file_dir = Path(__file__).absolute().parent
 
+    print("-----------------> ./configure --enable-shared")
     subprocess.Popen("./configure --enable-shared", shell=True, cwd=current_file_dir).wait()
+    print("----------------->  make dep")
     subprocess.Popen("make dep", shell=True, cwd=current_file_dir).wait()
+    print("----------------->  make")
     subprocess.Popen("make", shell=True, cwd=current_file_dir).wait()
+    print("-----------------> make install")
     subprocess.Popen("make install", shell=True, cwd=current_file_dir).wait() # this one installs the libs
+    print("-----------------> swig")
     subprocess.Popen(["swig \
         -I./pjlib/include \
         -I./pjlib-util/include \
@@ -47,7 +50,7 @@ if sys.argv[1] == "build":
         -c++ \
         -w312 \
         -python \
-        -o pjsua2_wrap.cpp \
+        -o ./pjsua2_wrap.cpp \
         ./pjsua2.i"], shell=True, cwd=current_file_dir).wait()
 
 # find pjsip version
