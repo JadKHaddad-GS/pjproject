@@ -64,11 +64,11 @@ if sys.argv[1] == "bdist_wheel":
         -python \
         -o ./pjsua2_wrap.cpp \
         ./pjsua2.i"], shell=True, cwd=current_file_dir).wait()
-    print("-----------------> copy to /home/pjproject/ <-----------------")
-    returncode = subprocess.Popen("cp -r . /home/pjproject/", shell=True, cwd=current_file_dir).wait()
-    if returncode > 0:
-        print(f"-----------------> copy to /home/pjproject/ failed with {returncode} <-----------------")
-        exit(returncode)
+    # print("-----------------> copy to /home/pjproject/ <-----------------") for this one we have to configure the build path in *.mak
+    # returncode = subprocess.Popen("cp -r . /home/pjproject/", shell=True, cwd=current_file_dir).wait()
+    # if returncode > 0:
+    #     print(f"-----------------> copy to /home/pjproject/ failed with {returncode} <-----------------")
+    #     exit(returncode)
 
 # find pjsip version
 pj_version=""
