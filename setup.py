@@ -27,6 +27,9 @@ from pathlib import Path
 import subprocess
 import sys
 
+# Get 'make' from environment variable if any
+MAKE = os.environ.get('MAKE') or "make"
+
 print(f"-----------------> args: {sys.argv} <-----------------" )
 
 if sys.argv[1] == "bdist_wheel":
@@ -38,17 +41,17 @@ if sys.argv[1] == "bdist_wheel":
         print(f"-----------------> ./configure --enable-shared failed with {returncode} <-----------------")
         exit(returncode)
     print("-----------------> make dep <-----------------")
-    returncode = subprocess.Popen("make dep", shell=True, cwd=current_file_dir).wait()
+    returncode = subprocess.Popen(f"{MAKE} dep", shell=True, cwd=current_file_dir).wait()
     if returncode > 0:
         print(f"-----------------> make dep failed with {returncode} <-----------------")
         exit(returncode)
     print("-----------------> make <-----------------")
-    returncode = subprocess.Popen("make", shell=True, cwd=current_file_dir).wait()
+    returncode = subprocess.Popen(f"{MAKE}", shell=True, cwd=current_file_dir).wait()
     if returncode > 0:
         print(f"-----------------> make failed with {returncode} <-----------------")
         exit(returncode)
     print("-----------------> make install <-----------------")
-    returncode = subprocess.Popen("make install", shell=True, cwd=current_file_dir).wait() # this one installs the libs
+    returncode = subprocess.Popen(f"{MAKE} install", shell=True, cwd=current_file_dir).wait() # this one installs the libs
     print("-----------------> swig <-----------------")
     returncode = subprocess.Popen(["swig \
         -I./pjlib/include \
@@ -106,9 +109,6 @@ if pj_version_suffix:
     pj_version += "-" + pj_version_suffix
 
 #print 'PJ_VERSION = "'+ pj_version + '"'
-
-# Get 'make' from environment variable if any
-MAKE = os.environ.get('MAKE') or "make"
 
 # Get targetname
 f = os.popen("%s --no-print-directory -f helper.mak target_name" % MAKE)

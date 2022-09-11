@@ -7,7 +7,7 @@ WORKDIR /home
 RUN apt install -y nano 
 RUN apt install -y python3-pip
 
-ENV LD_LIBRARY_PATH /usr/local/lib
+#ENV LD_LIBRARY_PATH /usr/local/lib
 
 #RUN mkdir /home/symbols
 
