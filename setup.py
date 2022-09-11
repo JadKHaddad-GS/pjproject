@@ -27,21 +27,33 @@ from pathlib import Path
 import subprocess
 import sys
 
-print("-----------------> args: ", sys.argv)
+print(f"-----------------> args: {sys.argv} <-----------------" )
 
 if sys.argv[1] == "bdist_wheel":
     current_file_dir = Path(__file__).absolute().parent
 
-    print("-----------------> ./configure --enable-shared")
-    subprocess.Popen("./configure --enable-shared", shell=True, cwd=current_file_dir).wait()
-    print("----------------->  make dep")
-    subprocess.Popen("make dep", shell=True, cwd=current_file_dir).wait()
-    print("----------------->  make")
-    subprocess.Popen("make", shell=True, cwd=current_file_dir).wait()
-    print("-----------------> make install")
-    subprocess.Popen("make install", shell=True, cwd=current_file_dir).wait() # this one installs the libs
-    print("-----------------> swig")
-    subprocess.Popen(["swig \
+    print("-----------------> ./configure --enable-shared <-----------------")
+    returncode = subprocess.Popen("./configure --enable-shared", shell=True, cwd=current_file_dir).wait()
+    if returncode > 0:
+        print(f"-----------------> ./configure --enable-shared failed with {returncode} <-----------------")
+        exit(returncode)
+    print("-----------------> make dep <-----------------")
+    returncode = subprocess.Popen("make dep", shell=True, cwd=current_file_dir).wait()
+    if returncode > 0:
+        print(f"-----------------> make dep failed with {returncode} <-----------------")
+        exit(returncode)
+    print("-----------------> make <-----------------")
+    returncode = subprocess.Popen("make", shell=True, cwd=current_file_dir).wait()
+    if returncode > 0:
+        print(f"-----------------> make failed with {returncode} <-----------------")
+        exit(returncode)
+    print("-----------------> make install <-----------------")
+    returncode = subprocess.Popen("make install <-----------------", shell=True, cwd=current_file_dir).wait() # this one installs the libs
+    if returncode > 0:
+        print(f"-----------------> make install failed with {returncode} <-----------------")
+        exit(returncode)
+    print("-----------------> swig <-----------------")
+    returncode = subprocess.Popen(["swig \
         -I./pjlib/include \
         -I./pjlib-util/include \
         -I./pjmedia/include \
@@ -52,6 +64,14 @@ if sys.argv[1] == "bdist_wheel":
         -python \
         -o ./pjsua2_wrap.cpp \
         ./pjsua2.i"], shell=True, cwd=current_file_dir).wait()
+    if returncode > 0:
+        print(f"-----------------> swig failed with {returncode} <-----------------")
+        exit(returncode)
+    print("-----------------> copy to /home/pjproject/ <-----------------")
+    returncode = subprocess.Popen("cp -r . /home/pjproject/", shell=True, cwd=current_file_dir).wait()
+    if returncode > 0:
+        print(f"-----------------> copy to /home/pjproject/ failed with {returncode} <-----------------")
+        exit(returncode)
 
 # find pjsip version
 pj_version=""
