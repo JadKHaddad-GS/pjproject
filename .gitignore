@@ -76,3 +76,8 @@ tests/pjsua/logs
 */docs/xml/
 */docs/latex/
 */docs/*.tag
+
+# Python
+**/__pycache__
+**/caller.log
+**/answerer.log

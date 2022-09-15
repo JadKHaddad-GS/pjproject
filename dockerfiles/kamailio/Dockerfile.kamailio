@@ -1,0 +1,36 @@
+FROM kamailio/kamailio:5.5.0-trusty
+
+WORKDIR /etc/kamailio/
+
+RUN echo "DBENGINE=SQLITE" >> kamctlrc
+RUN echo "DBHOST=localhost" >> kamctlrc
+RUN echo "DB_PATH="/usr/local/etc/kamailio/kamailio.sqlite"" >> kamctlrc
+RUN echo "INSTALL_EXTRA_TABLES=no" >> kamctlrc
+RUN echo "INSTALL_PRESENCE_TABLES=no" >> kamctlrc
+RUN echo "INSTALL_DBUID_TABLES=no" >> kamctlrc
+
+# network alias for kamailio
+RUN echo "alias=kamailio5.5.0-trusty:*" >> kamailio.cfg
+# external IP address of your pc
+RUN echo "alias=192.168.178.64:*" >> kamailio.cfg
+# docker alias for kamailio
+RUN echo "alias=host.docker.internal:*" >> kamailio.cfg
+
+RUN mkdir /usr/local/etc/kamailio
+RUN touch /usr/local/etc/kamailio/kamailio.sqlite
+
+RUN /usr/sbin/kamdbctl create
+
+# create some users
+RUN kamctl add user1@localhost.com user1
+RUN kamctl add user2@localhost.com user2
+RUN kamctl add user3@localhost.com user3
+RUN kamctl add user4@localhost.com user4
+RUN kamctl add user5@localhost.com user5
+
+EXPOSE 5060/udp
+
+CMD ["/usr/sbin/kamailio"]
+
+# docker build -t kamailio5.5.0-trusty -f dockerfiles/kamailio/Dockerfile.kamailio .
+# docker run -it --rm --name kamailio5.5.0-trusty --network net -p 5060:5060/udp kamailio5.5.0-trusty
