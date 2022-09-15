@@ -1,7 +1,7 @@
 FROM debian:11-slim as builder
 
 RUN apt update
-RUN apt install -y git python3 python3-pip python3-dev swig
+RUN apt install -y git python3 python3-pip python3-dev gcc g++ make swig
 
 WORKDIR /home
 
