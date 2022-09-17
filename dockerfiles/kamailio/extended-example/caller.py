@@ -12,21 +12,18 @@ if __name__ == "__main__":
     datefmt='%H:%M:%S',
     level=logging.INFO)
 
-    logger = logging.getLogger('Caller')
-
-    account = Account(logger=logger, username="user1", password="user1")
-    app = App(logger=logger, sip_host=SIP_HOST, sip_port=SIP_PORT, account=account)
+    account = Account(username="user1", password="user1")
+    app = App(sip_host=SIP_HOST, sip_port=SIP_PORT, accounts=[account])
 
     time.sleep(3)
-    call = CallerCall(account, logger)
+    call = CallerCall(account, CALLED_USER)
     call_op_prm = pj.CallOpParam()
     try:
         call.makeCall(f"sip:{CALLED_USER}@{SIP_HOST}:{SIP_PORT}", call_op_prm)
     except pj.Error as e:
-        logger.error(f"Exception: {e.status} {e.reason}")
+        logging.error(f"Exception: {e.status} {e.reason}")
     except Exception as e:
-        logger.error(f"Exception: {e}")
-
+        logging.error(f"Exception: {e}")
 
     app.handle_events()
 

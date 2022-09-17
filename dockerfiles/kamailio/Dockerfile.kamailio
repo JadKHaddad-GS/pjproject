@@ -13,7 +13,7 @@ RUN echo "INSTALL_DBUID_TABLES=no" >> kamctlrc
 RUN echo "alias=kamailio5.5.0-trusty:*" >> kamailio.cfg
 # external IP address of your pc
 RUN echo "alias=192.168.178.64:*" >> kamailio.cfg
-# docker alias for kamailio
+# docker host alias for kamailio
 RUN echo "alias=host.docker.internal:*" >> kamailio.cfg
 
 RUN mkdir /usr/local/etc/kamailio

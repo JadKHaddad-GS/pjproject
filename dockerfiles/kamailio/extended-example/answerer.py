@@ -9,10 +9,8 @@ if __name__ == "__main__":
     datefmt='%H:%M:%S',
     level=logging.INFO)
 
-    logger = logging.getLogger('Answerer')
-
-    account = Account(logger=logger, username="user2", password="user2")
-    app = App(logger=logger, sip_host=SIP_HOST, sip_port=SIP_PORT, account=account)
+    account = Account(username="user2", password="user2")
+    app = App(sip_host=SIP_HOST, sip_port=SIP_PORT, accounts=[account])
 
     app.handle_events()
 

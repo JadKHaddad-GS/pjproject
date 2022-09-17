@@ -79,5 +79,3 @@ tests/pjsua/logs
 
 # Python
 **/__pycache__
-**/caller.log
-**/answerer.log
