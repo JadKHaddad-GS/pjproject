@@ -6,14 +6,16 @@ import time
 CALLED_USER = "user2"
 
 if __name__ == "__main__":
-    logging.basicConfig(filename="caller.log",
-    filemode='w',
-    format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
-    datefmt='%H:%M:%S',
-    level=logging.INFO)
+    logging.basicConfig(
+        filename="caller.log",
+        filemode="w",
+        format="%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s",
+        datefmt="%H:%M:%S",
+        level=logging.INFO,
+    )
 
+    app = App(sip_host=SIP_HOST, sip_port=SIP_PORT)
     account = Account(username="user1", password="user1")
-    app = App(sip_host=SIP_HOST, sip_port=SIP_PORT, accounts=[account])
 
     time.sleep(3)
     call = CallerCall(account, CALLED_USER)
