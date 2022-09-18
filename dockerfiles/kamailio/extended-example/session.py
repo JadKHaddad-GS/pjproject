@@ -33,7 +33,7 @@ if __name__ == "__main__":
         level=logging.INFO,
     )
 
-    app = App(sip_host=SIP_HOST, sip_port=SIP_PORT, name="app", run_time=10, handle_events_timeout=10)
+    app = App(sip_host=SIP_HOST, sip_port=SIP_PORT, name="app", run_time=10, handle_events_timeout=1000)
     account_1 = Account(username="user1", password="user1")
     account_2 = Account(username="user2", password="user2")
     call = CallerCall(account_1, account_2.username)
@@ -50,18 +50,22 @@ if __name__ == "__main__":
         call.makeCall(
             f"sip:{account_2.username}@{SIP_HOST}:{SIP_PORT}", pj.CallOpParam()
         )
+        app.ep.libHandleEvents(100)
         call_2.makeCall(
             f"sip:{account_4.username}@{SIP_HOST}:{SIP_PORT}", pj.CallOpParam()
         )
+        app.ep.libHandleEvents(100)
         call_3.makeCall(
             f"sip:{account_6.username}@{SIP_HOST}:{SIP_PORT}", pj.CallOpParam()
         )
+        app.ep.libHandleEvents(100)
     except pj.Error as e:
         logging.error(f"Exception: {e.status} {e.reason}")
     except Exception as e:
         logging.error(f"Exception: {e}")
 
     # not receiving incoming calls for user4 and user6 (Busy here)
+    # 12:43:43,864 root ERROR Exception: 70011 Object is busy (PJ_EBUSY)
     app.handle_events()
     app.destroy()
 
