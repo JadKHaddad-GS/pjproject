@@ -68,16 +68,16 @@ class CallerCall(Call):
             self.logger.info(f"[{self.acc.username}] Call Disconnected")
             # make a new call if disconnected
             # time.sleep(1) # sleeping here is causing an infinite loop
-            try:
-                call_op_prm = pj.CallOpParam()
-                self.logger.info(f"[{self.acc.username}] Calling: {self.called_user}")
-                self.makeCall(
-                    f"sip:{self.called_user}@{SIP_HOST}:{SIP_PORT}", call_op_prm
-                )
-            except pj.Error as e:
-                logging.error(f"Exception: {e.status} {e.reason}")
-            except Exception as e:
-                logging.error(f"Exception: {e}")
+            # try:
+            #     call_op_prm = pj.CallOpParam()
+            #     self.logger.info(f"[{self.acc.username}] Calling: {self.called_user}")
+            #     self.makeCall(
+            #         f"sip:{self.called_user}@{SIP_HOST}:{SIP_PORT}", call_op_prm
+            #     )
+            # except pj.Error as e:
+            #     logging.error(f"Exception: {e.status} {e.reason}")
+            # except Exception as e:
+            #     logging.error(f"Exception: {e}")
 
 
 class Account(pj.Account):
