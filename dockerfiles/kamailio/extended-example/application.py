@@ -40,46 +40,44 @@ class CallerCall(Call):
         self.logger.info(f"[{self.acc.username}] Call State: {info.state}")
         if info.state == pj.PJSIP_INV_STATE_CONFIRMED:
             self.logger.info(f"[{self.acc.username}] Call Confirmed")
+            # dtmf_prm = pj.CallSendDtmfParam()
+            # dtmf_prm.method = pj.PJSUA_DTMF_METHOD_SIP_INFO
+            # dtmf_prm.digits = "1234"
+            # self.sendDtmf(dtmf_prm)
+            # self.logger.info(f"DTMF Sent: {dtmf_prm.digits}")
 
-            dtmf_prm = pj.CallSendDtmfParam()
-            dtmf_prm.method = pj.PJSUA_DTMF_METHOD_SIP_INFO
-            dtmf_prm.digits = "1234"
-            self.sendDtmf(dtmf_prm)
-            self.logger.info(f"DTMF Sent: {dtmf_prm.digits}")
+            # message_prm = pj.SendInstantMessageParam()
+            # message_prm.content = "Hello World"
+            # self.sendInstantMessage(message_prm)
+            # self.logger.info(
+            #     f"[{self.acc.username}] Instant Message Sent: {message_prm.content}"
+            # )
 
-            message_prm = pj.SendInstantMessageParam()
-            message_prm.content = "Hello World"
-            self.sendInstantMessage(message_prm)
-            self.logger.info(
-                f"[{self.acc.username}] Instant Message Sent: {message_prm.content}"
-            )
-
-            typing_prm = pj.SendTypingIndicationParam()
-            typing_prm.isTyping = True
-            self.sendTypingIndication(typing_prm)
-            self.logger.info(
-                f"[{self.acc.username}] Typing Indication Sent: {typing_prm.isTyping}"
-            )
-
-            # time.sleep(1)
+            # typing_prm = pj.SendTypingIndicationParam()
+            # typing_prm.isTyping = True
+            # self.sendTypingIndication(typing_prm)
+            # self.logger.info(
+            #     f"[{self.acc.username}] Typing Indication Sent: {typing_prm.isTyping}"
+            # )
+            #time.sleep(1)
             call_op_prm = pj.CallOpParam()
             self.hangup(call_op_prm)
             self.logger.info(f"[{self.acc.username}] Call Hangup")
 
-        if info.state == pj.PJSIP_INV_STATE_DISCONNECTED:
-            self.logger.info(f"[{self.acc.username}] Call Disconnected")
-            # make a new call if disconnected
-            # time.sleep(1) # sleeping here is causing an infinite loop
-            try:
-                call_op_prm = pj.CallOpParam()
-                self.logger.info(f"[{self.acc.username}] Calling: {self.called_user}")
-                self.makeCall(
-                    f"sip:{self.called_user}@{SIP_HOST}:{SIP_PORT}", call_op_prm
-                )
-            except pj.Error as e:
-                logging.error(f"Exception: {e.status} {e.reason}")
-            except Exception as e:
-                logging.error(f"Exception: {e}")
+        # if info.state == pj.PJSIP_INV_STATE_DISCONNECTED:
+        #     self.logger.info(f"[{self.acc.username}] Call Disconnected")
+        #     # make a new call if disconnected
+        #     # time.sleep(1) # sleeping here is causing an infinite loop
+        #     try:
+        #         call_op_prm = pj.CallOpParam()
+        #         self.logger.info(f"[{self.acc.username}] Calling: {self.called_user}")
+        #         self.makeCall(
+        #             f"sip:{self.called_user}@{SIP_HOST}:{SIP_PORT}", call_op_prm
+        #         )
+        #     except pj.Error as e:
+        #         logging.error(f"Exception: {e.status} {e.reason}")
+        #     except Exception as e:
+        #         logging.error(f"Exception: {e}")
 
 
 class Account(pj.Account):
@@ -129,7 +127,8 @@ class App:
         self.ep_cfg = pj.EpConfig()
         self.ep_cfg.uaConfig.threadCnt = 0  # important
         self.ep_cfg.uaConfig.mainThreadOnly = True  # important
-        self.ep_cfg.maxCalls = 32
+        self.ep_cfg.uaConfig.maxCalls = 1000
+        self.logger.info("Creating Endpoint with max calls: {}".format(self.ep_cfg.uaConfig.maxCalls))
 
         self.ep = pj.Endpoint()
         self.ep.libCreate()
