@@ -127,7 +127,7 @@ class App:
         self.ep_cfg = pj.EpConfig()
         self.ep_cfg.uaConfig.threadCnt = 0  # important
         self.ep_cfg.uaConfig.mainThreadOnly = True  # important
-        self.ep_cfg.uaConfig.maxCalls = 1000
+        self.ep_cfg.uaConfig.maxCalls = 32
         self.logger.info("Creating Endpoint with max calls: {}".format(self.ep_cfg.uaConfig.maxCalls))
 
         self.ep = pj.Endpoint()

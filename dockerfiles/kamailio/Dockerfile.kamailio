@@ -22,14 +22,7 @@ RUN touch /usr/local/etc/kamailio/kamailio.sqlite
 RUN /usr/sbin/kamdbctl create
 
 # create some users
-RUN kamctl add user1@localhost.com user1
-RUN kamctl add user2@localhost.com user2
-RUN kamctl add user3@localhost.com user3
-RUN kamctl add user4@localhost.com user4
-RUN kamctl add user5@localhost.com user5
-RUN kamctl add user6@localhost.com user6
-RUN kamctl add user7@localhost.com user7
-RUN kamctl add user8@localhost.com user8
+RUN for i in {1..100}; do username="user$i"; kamctl add $username@localhost.com $username; done
 
 EXPOSE 5060/udp
 
@@ -37,3 +30,5 @@ CMD ["/usr/sbin/kamailio"]
 
 # docker build -t kamailio5.5.0-trusty -f dockerfiles/kamailio/Dockerfile.kamailio .
 # docker run -it --rm --name kamailio5.5.0-trusty --network net -p 5060:5060/udp kamailio5.5.0-trusty
+
+
