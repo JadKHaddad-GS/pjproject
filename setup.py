@@ -34,7 +34,11 @@ print(f"-----------------> args: {sys.argv} <-----------------" )
 
 if sys.argv[1] == "bdist_wheel":
     current_file_dir = Path(__file__).absolute().parent
-
+    print("-----------------> Copy pjsua.h <-----------------")
+    returncode = subprocess.Popen("cp ./pjsua.h ./pjsip/include/pjsua-lib/pjsua.h", shell=True, cwd=current_file_dir).wait()
+    if returncode > 0:
+        print(f"-----------------> Copy pjsua.h {returncode} <-----------------")
+        exit(returncode)
     print("-----------------> ./configure --enable-shared <-----------------")
     returncode = subprocess.Popen("./configure --enable-shared", shell=True, cwd=current_file_dir).wait()
     if returncode > 0:
